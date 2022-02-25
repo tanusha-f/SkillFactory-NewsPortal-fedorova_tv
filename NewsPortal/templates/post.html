@@ -1,0 +1,29 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+    News#
+{% endblock title %}
+
+{% block content %}
+    <h4>
+        {{ time_now | date:'d M Y' }}
+    </h4>
+    <hr>
+    <p style="font-size: 1.5em; font-family: Georgia;">
+        {{ post.head | censor}}
+    </p>
+    <p style="font-size: 0.8em; font-family: Georgia;">
+        Дата публикации: {{ post.time_in | date:'d.m.Y H:i' }}
+    </p>
+    <p style="font-size: 0.8em; font-family: Georgia;">
+        Автор: {{ post.author.user.username }}
+    </p>
+    <p style="font-size: 1.2em; font-family: Georgia;">
+        {{ post.text | censor }}
+    </p>
+    <p style="font-size: 0.8em; font-family: Georgia;">
+        Рейтинг: {{ post.rating }}
+    </p>
+{% endblock content %}
