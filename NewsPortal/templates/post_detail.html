@@ -7,13 +7,10 @@
 {% endblock title %}
 
 {% block content %}
-    <h4>
-        {{ time_now | date:'d M Y' }}
-    </h4>
-    <hr>
-    <p style="font-size: 1.5em; font-family: Georgia;">
+<br/>
+    <p style="font-size: 1.5em; font-family: Georgia;"><strong>
         {{ post.head | censor}}
-    </p>
+    </strong></p>
     <p style="font-size: 0.8em; font-family: Georgia;">
         Дата публикации: {{ post.time_in | date:'d.m.Y H:i' }}
     </p>
@@ -26,4 +23,7 @@
     <p style="font-size: 0.8em; font-family: Georgia;">
         Рейтинг: {{ post.rating }}
     </p>
+    <br/>
+    <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
+    <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
 {% endblock content %}

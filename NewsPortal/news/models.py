@@ -22,9 +22,15 @@ class Author(models.Model):
         self.rating = pr + cr + ar
         self.save()
 
+    def __str__(self):
+        return f'{self.user.username}'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=150, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Post(models.Model):
@@ -32,8 +38,8 @@ class Post(models.Model):
     news = 'NWS'
 
     TYPE = [
-        (article, 'Статья'),
         (news, 'Новость'),
+        (article, 'Статья'),
     ]
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     type = models.CharField(max_length=3, choices=TYPE, default=news)
@@ -42,9 +48,6 @@ class Post(models.Model):
     head = models.CharField(max_length=255)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
-
-    def __str__(self):
-        return f'{self.head}'
 
     def like(self):
         self.rating += 1
@@ -59,6 +62,9 @@ class Post(models.Model):
             return self.text[:] + '...'
         else:
             return self.text[:124] + '...'
+
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
 
 
 class PostCategory(models.Model):

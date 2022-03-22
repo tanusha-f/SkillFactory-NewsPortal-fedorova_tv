@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+    News/Delete
+{% endblock title %}
+
+{% block content %}
+<br/>
+<h1 align="center" style="font-family: Georgia;"><strong> Удаление публикации </strong></h1>
+    <hr>
+    <p style="font-size: 1.3em; font-family: Georgia;">
+        Вы увены, что хотите удалить данную публикацию?
+    </p>
+    <br/>
+    <p style="font-size: 1.5em; font-family: Georgia;"><strong>
+        {{ post.head | censor}}
+    </strong></p>
+    <p style="font-size: 0.8em; font-family: Georgia;">
+        Дата публикации: {{ post.time_in | date:'d.m.Y H:i' }}
+    </p>
+    <p style="font-size: 0.8em; font-family: Georgia;">
+        Автор: {{ post.author.user.username }}
+    </p>
+<br/>
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+</form>
+
+{% endblock content %}

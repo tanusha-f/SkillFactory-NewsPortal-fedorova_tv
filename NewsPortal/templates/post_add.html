@@ -1,0 +1,37 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+{% if update %}
+    News/Update
+{% else %}
+    News/Add
+{% endif %}
+{% endblock title %}
+
+{% block content %}
+    <br/>
+    <h3 align="right" style="font-family: Georgia;">
+        Сегодня: &ensp; {{ time_now | date:'d F Y' }}
+    </h3>
+    {% if update %}
+        <h1 align="center" style="font-family: Georgia;"><strong> Редактирование публикации </strong></h1>
+    {% else %}
+        <h1 align="center" style="font-family: Georgia;"><strong> Добавление публикации </strong></h1>
+    {% endif %}
+    <hr>
+    <p style="font-size: 1.3em; font-family: Georgia;">
+        Заполните необходимые поля:
+    </p>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        {% if update %}
+            <input type="submit" value="Редактировать публикацию" style="width:250px" >
+        {% else %}
+            <input type="submit" value="Добавить публикацию" style="width:200px" >
+        {% endif %}
+    </form>
+    <br/><br/>
+{% endblock content %}
