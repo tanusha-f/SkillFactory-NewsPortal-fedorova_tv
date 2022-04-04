@@ -32,8 +32,10 @@
                     <td style="padding-top: 10px; padding-bottom: 15px">
                         <a href="{% url 'post_detail' post.id %}" style="text-decoration: none"> {{ post.head | censor}} </a>
                         <br/>
-                        <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
-                        <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+                        {% if request.user == post.author.user %}
+                            <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
+                            <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+                        {% endif %}
                     </td>
                     <td style="padding-top: 10px; padding-bottom: 15px"> {{ post.time_in | date:'d.m.Y' }} </td>
                     <td style="padding-top: 10px; padding-bottom: 15px"> {{ post.text | censor | truncatechars:70 }} </td>

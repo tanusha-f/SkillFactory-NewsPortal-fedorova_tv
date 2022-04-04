@@ -17,28 +17,29 @@
     <body>
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-            <div class="container">
-                <a class="navbar-brand" href="#">NewsPortal</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarResponsive"
-                        aria-controls="navbarResponsive" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/news/">Все новости</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/news/search">Поиск</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/news/add">Добавить</a>
-                        </li>
-
-                    </ul>
-                </div>
+            <div class="container" style="display: flex; justify-content: space-between">
+                <p class="navbar-brand">NewsPortal</p>
+                <p class="navbar-nav nav-item" style="font-size: 1.5rem">
+                    <a class="nav-link" href="/news/">Все новости</a>
+                    <a class="nav-link" href="/news/search">Поиск</a>
+                    <a class="nav-link" href="/news/add">Добавить</a>
+                </p>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container" style="display: flex; justify-content: flex-end">
+                <p class="navbar-nav nav-item" style="font-size: 1.2rem">
+                    {% if is_author %}
+                        <a class="nav-link" href="/profile/">Пользователь: {{ request.user.username }}</a>
+                        <a class="nav-link" href="/accounts/logout">Выход</a>
+                    {% elif request.user.pk %}
+                        <a class="nav-link" href="/profile/">Пользователь: {{ request.user.username }}</a>
+                        <a class="nav-link" href="/sign/upgrade"> Стать автором</a>
+                        <a class="nav-link" href="/accounts/logout">Выход</a>
+                    {% else %}
+                        <a class="nav-link" href="/accounts/login">Вход/Регистрация</a>
+                    {% endif %}
+                </p>
             </div>
         </nav>
         <!-- Page content-->

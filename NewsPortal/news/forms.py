@@ -1,6 +1,6 @@
-from django.forms import ModelForm, ChoiceField, CharField, MultipleChoiceField, DateTimeField
+from django.forms import ModelForm, ChoiceField, CharField, MultipleChoiceField, HiddenInput
 from .models import Post, Category
-from django.forms.widgets import Textarea, CheckboxSelectMultiple, DateTimeInput
+from django.forms.widgets import Textarea, CheckboxSelectMultiple
 
 
 class PostForm(ModelForm):
@@ -20,3 +20,6 @@ class PostForm(ModelForm):
     class Meta:
         model = Post
         fields = ('author', 'type', 'head', 'text', 'category',)
+        widgets = {
+            'author': HiddenInput()
+        }
