@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load custom_tags %}
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -22,19 +23,20 @@
                 <p class="navbar-nav nav-item" style="font-size: 1.5rem">
                     <a class="nav-link" href="/news/">Все новости</a>
                     <a class="nav-link" href="/news/search">Поиск</a>
-                    <a class="nav-link" href="/news/add">Добавить</a>
+                    {% if is_author %} <a class="nav-link" href="/news/add">Добавить</a> {% endif %}
                 </p>
             </div>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-            <div class="container" style="display: flex; justify-content: flex-end">
+            <div class="container" style="display: flex; justify-content: space-between">
+                <p class="navbar-brand" style="font-size: 1.2rem">Сегодня: {% current_time '%d %b %Y' %}</p>
                 <p class="navbar-nav nav-item" style="font-size: 1.2rem">
                     {% if is_author %}
                         <a class="nav-link" href="/profile/">Пользователь: {{ request.user.username }}</a>
                         <a class="nav-link" href="/accounts/logout">Выход</a>
                     {% elif request.user.pk %}
                         <a class="nav-link" href="/profile/">Пользователь: {{ request.user.username }}</a>
-                        <a class="nav-link" href="/sign/upgrade"> Стать автором</a>
+                        <a class="nav-link" href="/account/upgrade"> Стать автором</a>
                         <a class="nav-link" href="/accounts/logout">Выход</a>
                     {% else %}
                         <a class="nav-link" href="/accounts/login">Вход/Регистрация</a>

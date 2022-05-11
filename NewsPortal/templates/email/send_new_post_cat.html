@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Здравствуйте, {{ user }}!
+        {% if len > 1 %}
+            Добавлена публикация в ваших любимых разделах "{{ cat }}"!
+        {% else %}
+            Добавлена публикация в вашем любимом разделе "{{ cat }}"!
+        {% endif %}
+    </h2>
+    <p> <strong>Название публикации:</strong> "{{ post_new.head }}"<br/>
+        <strong>Содержание:</strong> "{{ post_new.text|truncatechars:50 }}..."
+    </p>
+    <br/>
+    <p> Для просмотра публикации перейдите по
+        <a href="http://127.0.0.1:8000/news/{{ post_new.id }}">ссылке</a>
+    </p>
+    <br/><br/>
+</body>
+</html>

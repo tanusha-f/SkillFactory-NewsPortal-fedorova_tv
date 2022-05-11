@@ -12,9 +12,6 @@
 
 {% block content %}
     <br/>
-    <h3 align="right" style="font-family: Georgia;">
-        Сегодня: &ensp; {{ time_now | date:'d F Y' }}
-    </h3>
     {% if update %}
         <h1 align="center" style="font-family: Georgia;"><strong> Редактирование публикации </strong></h1>
     {% else %}

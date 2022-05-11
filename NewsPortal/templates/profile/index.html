@@ -1,0 +1,16 @@
+{% extends "flatpages/default.html" %}
+
+{% block content %}
+<br/>
+<h2 align="center" style="font-family: Georgia;"><strong>Страница авторизованного пользователя {{request.user.username}}</strong></h2>
+Здесь может содержаться персональная информация для каждого пользователя
+<br/><br/>
+    <a href="/profile/subs" style="text-decoration: none; font-family: Georgia;">Ваши подписки</a>&emsp;
+    {% if is_author %} <a href="/profile/posts" style="text-decoration: none; font-family: Georgia;">Ваши публикации</a>{% endif %}
+<br/><br/>
+{% if not is_author %}
+<button> <a href="/account/upgrade" style="text-decoration: none; font-family: Georgia;"> Стать автором </a> </button>
+{% endif %}
+
+<button> <a href="/accounts/logout" style="text-decoration: none; font-family: Georgia;">Выйти</a> </button>
+{% endblock %}

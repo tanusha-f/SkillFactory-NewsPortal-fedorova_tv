@@ -8,12 +8,9 @@
 
 {% block content %}
     <br/>
-    <h3 align="right" style="font-family: Georgia;">
-        Сегодня: &ensp; {{ time_now | date:'d F Y' }}
-    </h3>
-    <h1 align="center" style="font-family: Georgia;"><strong> Поиск новостей </strong></h1>
+    <h1 align="center" style="font-family: Georgia;"><strong> Поиск публикаций </strong></h1>
     <hr>
-    {% if postss %}
+    {% if all %}
         <p style="font-size: 1.3em; font-family: Georgia;">
             Критерии поиска:
         </p>
@@ -21,19 +18,19 @@
             {{ filter.form }}
             <input type="submit" value="Найти" style="width:100px" >
         </form>
-        {% if filter.qs %}
-            <p style="font-size: 1em; font-family: Georgia;">
-                <br/>
-                Найдено публикаций: {{ filter.qs | length }}
-            </p>
+        <p style="font-size: 1em; font-family: Georgia;">
             <br/>
+            Найдено публикаций: {{ filter.qs | length }}
+        </p>
+        <br/>
+        {% if postss %}
             <table style="width: 100%; font-family: Georgia;">
                 <tr>
                     <th style="border-bottom: 3px solid #B9B29F; width:40%;padding-bottom: 10px;"> Заголовок </th>
                     <th style="border-bottom: 3px solid #B9B29F; width:15%;padding-bottom: 10px;"> Дата<br/>публикации </th>
                     <th style="border-bottom: 3px solid #B9B29F; width:45%;padding-bottom: 10px;"> Текст </th>
                 </tr>
-                {% for post in filter.qs %}
+                {% for post in postss %}
                     <tr>
                         <td style="padding-top: 10px; padding-bottom: 15px">
                             <a href="{% url 'post_detail' post.id %}" style="text-decoration: none"> {{ post.head | censor}} </a>
@@ -50,7 +47,7 @@
             </p>
         {% endif %}
     {% else %}
-        <h2 style="font-family: Georgia;"> Новостей нет!</h2>
+        <h2 style="font-family: Georgia;"> Публикаций нет!</h2>
     {% endif %}
     <br/><br/>
 {% endblock content %}

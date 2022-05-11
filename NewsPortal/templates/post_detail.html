@@ -23,9 +23,36 @@
     <p style="font-size: 0.8em; font-family: Georgia;">
         Рейтинг: {{ post.rating }}
     </p>
-    <br/><br/>
+    <p style="font-size: 0.8em; font-family: Georgia;">
+        Категории:&emsp;
+         {% for cat in post_cat %}
+            {{cat}}&emsp;
+        {% endfor %}
+    </p>
     {% if request.user == post.author.user %}
-        <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
-        <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+        <p  align="right">
+            <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
+            <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+        </p>
     {% endif %}
+    <br/>
+    {% if request.user.pk %}
+    {% if subs %}
+        <p style="font-size: 1.0em; font-family: Georgia;">
+            Подпишитесь на дополнительные категории:
+        </p>
+        {% for key, value in subs.items %}
+            <p style="font-size: 1.0em; font-family: Georgia;">
+                {{value}} <button>
+                              <a href="{% url 'subsadd' key %}" style="text-decoration: none"> Подписаться </a>
+                          </button>
+            </p>
+        {% endfor %}
+    {% else %}
+        <p style="font-size: 1.0em; font-family: Georgia;">
+            Вы подписаны на все категории данной публикации!
+        </p>
+    {% endif %}
+    {% endif %}
+    <br/><br/>
 {% endblock content %}

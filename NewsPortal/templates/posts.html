@@ -8,10 +8,11 @@
 
 {% block content %}
     <br/>
-    <h3 align="right" style="font-family: Georgia;">
-        Сегодня: &ensp; {{ time_now | date:'d F Y' }}
-    </h3>
-    <h1 align="center" style="font-family: Georgia;"><strong> Все новости </strong></h1>
+    {% if author %}
+        <h1 align="center" style="font-family: Georgia;"><strong> Ваши публикации </strong></h1>
+    {% else %}
+        <h1 align="center" style="font-family: Georgia;"><strong> Все публикации </strong></h1>
+    {% endif %}
     <hr>
     {% if posts %}
         <p style="font-size: 1em; font-family: Georgia;">
@@ -72,7 +73,7 @@
             {% endif %}
         {% endif %}
     {% else %}
-        <h2 style="font-family: Georgia;"> Новостей нет!</h2>
+        <h2 style="font-family: Georgia;"> Публикаций нет!</h2>
     {% endif %}
     <br/><br/>
 {% endblock content %}
