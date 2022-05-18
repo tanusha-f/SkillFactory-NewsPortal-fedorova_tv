@@ -18,16 +18,18 @@ def send_mail_week():
             if cats:
                 posts[post] = ', '.join(list(cats))
 
-        html_content = render_to_string(
-            'email/send_posts_cat_week.html',
-            {'posts_info': posts,
-             'user': user.username, }
-        )
+        if posts:
+            html_content = render_to_string(
+                'email/send_posts_cat_week.html',
+                {'posts_info': posts,
+                 'user': user.username, }
+            )
 
-        msg = EmailMultiAlternatives(
-            subject='Новые публикации за прошедшую неделю!',
-            from_email='NewsPortal <tanya-fscf@yandex.ru>',
-            to=[user.email],
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+            msg = EmailMultiAlternatives(
+                subject='Новые публикации за прошедшую неделю!',
+                from_email='NewsPortal <tanya-fscf@yandex.ru>',
+                to=[user.email],
+            )
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+
