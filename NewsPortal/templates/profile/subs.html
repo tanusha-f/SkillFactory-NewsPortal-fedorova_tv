@@ -1,8 +1,12 @@
 {% extends "flatpages/default.html" %}
 
+{% block title %}
+    My subscribers
+{% endblock title %}
+
 {% block content %}
     <br/>
-    <h1 align="center" style="font-family: Georgia;"><strong> Ваши подписки </strong></h1>
+    <h1 align="center" style="font-family: Georgia;"><strong> Мои подписки </strong></h1>
     <br/>
     <form method="POST">
         {% csrf_token %}

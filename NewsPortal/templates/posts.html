@@ -3,13 +3,18 @@
 {% load custom_filters %}
 
 {% block title %}
-    News
+    {% if author %}
+        My posts
+    {% else %}
+        All posts
+    {% endif %}
+
 {% endblock title %}
 
 {% block content %}
     <br/>
     {% if author %}
-        <h1 align="center" style="font-family: Georgia;"><strong> Ваши публикации </strong></h1>
+        <h1 align="center" style="font-family: Georgia;"><strong> Мои публикации </strong></h1>
     {% else %}
         <h1 align="center" style="font-family: Georgia;"><strong> Все публикации </strong></h1>
     {% endif %}
@@ -25,19 +30,30 @@
         <table style="width: 100%; font-family: Georgia;">
             <tr>
                 <th style="border-bottom: 3px solid #B9B29F; width:40%;padding-bottom: 10px;"> Заголовок </th>
+                <th style="border-bottom: 3px solid #B9B29F; width:15%;padding-bottom: 10px;"> Тип<br/>публикации </th>
                 <th style="border-bottom: 3px solid #B9B29F; width:15%;padding-bottom: 10px;"> Дата<br/>публикации </th>
                 <th style="border-bottom: 3px solid #B9B29F; width:45%;padding-bottom: 10px;"> Содержание </th>
             </tr>
             {% for post in posts %}
                 <tr>
                     <td style="padding-top: 10px; padding-bottom: 15px">
-                        <a href="{% url 'post_detail' post.id %}" style="text-decoration: none"> {{ post.head | censor}} </a>
+                        {% if post.type == 'NWS' %}
+                            <a href="{% url 'post_detail' post.id %}" style="text-decoration: none"> {{ post.head | censor}} </a>
+                        {% else %}
+                            <a href="{% url 'art_detail' post.id %}" style="text-decoration: none"> {{ post.head | censor}} </a>
+                        {% endif %}
                         <br/>
                         {% if request.user == post.author.user %}
-                            <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
-                            <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+                            {% if post.type == 'NWS' %}
+                                <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
+                                <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+                            {% else %}
+                                <a href="{% url 'art_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
+                                <a href="{% url 'art_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+                            {% endif %}
                         {% endif %}
                     </td>
+                    <td style="padding-top: 10px; padding-bottom: 15px"> {{ post.get_type_display }} </td>
                     <td style="padding-top: 10px; padding-bottom: 15px"> {{ post.time_in | date:'d.m.Y' }} </td>
                     <td style="padding-top: 10px; padding-bottom: 15px"> {{ post.text | censor | truncatechars:70 }} </td>
                 </tr>
@@ -46,31 +62,37 @@
         <br/>
         {% if is_paginated %}
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}"><<</a>
-            {% endif %}
-            {% if page_obj.number|add:'-3' == 1 %}
-                    <a href="?page=1">1</a>
-            {% endif %}
-            {% if page_obj.number|add:'-3' > 1 %}
-                    <a href="?page=1">1...</a>
-            {% endif %}
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                    <a>{{ num }}</a>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <a href="?page={{ num }}">{{ num }}</a>
+                <a href="?page={{ page_obj.previous_page_number }}"><</a>
+                <a href="?page=1">1</a>
+                {% if page_obj.number == 3 %}
+                    <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
                 {% endif %}
-            {% endfor %}
-            {% if page_obj.number|add:'3' == page_obj.paginator.num_pages %}
-                    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
-            {% endif %}
-            {% if page_obj.number|add:'3' < page_obj.paginator.num_pages %}
-                    <a href="?page={{ page_obj.paginator.num_pages }}">...{{ page_obj.paginator.num_pages }}</a>
+                {% if page_obj.number > 3 %}
+                    {% if page_obj.number > 4 %}
+                        ...
+                    {% endif %}
+                    <a href="?page={{ page_obj.previous_page_number|add:'-1' }}">{{ page_obj.previous_page_number|add:'-1' }}</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                {% endif %}
             {% endif %}
 
+            {{ page_obj.number }}
+
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">>></a>
+                {% if page_obj.number|add:'2' < page_obj.paginator.num_pages %}
+                    <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                    <a href="?page={{ page_obj.next_page_number|add:'1' }}">{{ page_obj.next_page_number|add:'1' }}</a>
+                    {% if page_obj.number|add:'3' < page_obj.paginator.num_pages %}
+                        ...
+                    {% endif %}
+                {% endif %}
+                {% if page_obj.number|add:'2' == page_obj.paginator.num_pages %}
+                    <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                {% endif %}
+                <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                <a href="?page={{ page_obj.next_page_number }}">></a>
             {% endif %}
+
         {% endif %}
     {% else %}
         <h2 style="font-family: Georgia;"> Публикаций нет!</h2>

@@ -65,7 +65,11 @@ class Post(models.Model):
             return self.text[:124] + '...'
 
     def get_absolute_url(self):
-        return f'/news/{self.id}'
+        if self.type == 'NWS':
+            return f'/news/{self.id}'
+        else:
+            return f'/articles/{self.id}'
+
 
 
 class PostCategory(models.Model):

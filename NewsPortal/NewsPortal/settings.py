@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'fpages',
     'accounts',
     'profile',
+    'articles',
 
     'allauth',
     'allauth.account',
@@ -64,7 +65,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_UNIQUE_USERNAME = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'  #mandatory
 ACCOUNT_FORMS = {'signup': 'accounts.forms.BasicSignupForm'}
 
 MIDDLEWARE = [
@@ -170,7 +171,6 @@ DEFAULT_FROM_EMAIL = 'tanya-fscf@yandex.ru'
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
-
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'

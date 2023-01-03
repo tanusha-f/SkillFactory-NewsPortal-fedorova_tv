@@ -23,13 +23,14 @@ class PostFilter(FilterSet):
             }
         )
 
+    type = ChoiceFilter(field_name='type', label='Тип публикации', choices=Post.TYPE)
     author = ChoiceFilter(field_name='author', label='Имя автора')
     title = CharFilter(field_name='head', lookup_expr='icontains',
-                       label='Заголовок статьи')
+                       label='Заголовок')
     data = DateFilter(field_name='time_in', lookup_expr='gt',
                       label='Опубликовано не ранее', widget=DateInput(format='%d.%m.%Y', attrs={'type': 'date'}))
     category = ChoiceFilter(field_name='category', label='Категория', )
 
     class Meta:
         model = Post
-        fields = ('author', 'title', 'data', 'category',)
+        fields = ('type', 'author', 'title', 'data', 'category',)

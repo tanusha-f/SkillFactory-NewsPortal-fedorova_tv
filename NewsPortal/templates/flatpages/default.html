@@ -20,23 +20,36 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
             <div class="container" style="display: flex; justify-content: space-between">
                 <p class="navbar-brand">NewsPortal</p>
-                <p class="navbar-nav nav-item" style="font-size: 1.5rem">
-                    <a class="nav-link" href="/news/">Все новости</a>
-                    <a class="nav-link" href="/news/search">Поиск</a>
-                    {% if is_author %} <a class="nav-link" href="/news/add">Добавить</a> {% endif %}
-                </p>
+                <p class="navbar-brand" style="font-size: 1.2rem">Сегодня: {% current_time '%d %b %Y' %}</p>
             </div>
         </nav>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
             <div class="container" style="display: flex; justify-content: space-between">
-                <p class="navbar-brand" style="font-size: 1.2rem">Сегодня: {% current_time '%d %b %Y' %}</p>
+                <p class="navbar-nav nav-item" style="font-size: 1.5rem">
+                    <a class="nav-link" href="/news/">Все публикации</a>
+                    <a class="nav-link" href="/news/search">Поиск</a>
+                </p>
                 <p class="navbar-nav nav-item" style="font-size: 1.2rem">
                     {% if is_author %}
                         <a class="nav-link" href="/profile/">Пользователь: {{ request.user.username }}</a>
-                        <a class="nav-link" href="/accounts/logout">Выход</a>
                     {% elif request.user.pk %}
                         <a class="nav-link" href="/profile/">Пользователь: {{ request.user.username }}</a>
                         <a class="nav-link" href="/account/upgrade"> Стать автором</a>
+                    {% endif %}
+                </p>
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container" style="display: flex; justify-content: space-between">
+                <p class="navbar-nav nav-item" style="font-size: 1.2rem">
+                    {% if is_author %}
+                        <a class="nav-link" href="/news/add">Добавить новость</a>
+                        <a class="nav-link" href="/articles/add">Добавить статью</a>
+                    {% endif %}
+                </p>
+                <p class="navbar-nav nav-item" style="font-size: 1.2rem">
+                    {% if is_author or request.user.pk %}
                         <a class="nav-link" href="/accounts/logout">Выход</a>
                     {% else %}
                         <a class="nav-link" href="/accounts/login">Вход/Регистрация</a>
@@ -44,6 +57,7 @@
                 </p>
             </div>
         </nav>
+
         <!-- Page content-->
         <div class="container">
             {% block content %}

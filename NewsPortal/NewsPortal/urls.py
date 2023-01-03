@@ -18,9 +18,10 @@ from django.urls import path, include
 from news.views import PostsView
 
 urlpatterns = [
+    path('', PostsView.as_view()),
     path('admin/', admin.site.urls),
     path('news/', include('news.urls')),
-    path('', PostsView.as_view()),
+    path('articles/', include('articles.urls')),
     path('profile/', include('profile.urls')),
     path('account/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),

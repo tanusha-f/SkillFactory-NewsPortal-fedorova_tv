@@ -4,9 +4,17 @@
 
 {% block title %}
 {% if update %}
-    News/Update
+    {% if is_type == 'NWS' %}
+        News/Update
+    {% else %}
+        Articles/Update
+    {% endif %}
 {% else %}
-    News/Add
+    {% if is_type == 'NWS' %}
+        News/Add
+    {% else %}
+        Articles/Add
+    {% endif %}
 {% endif %}
 {% endblock title %}
 
@@ -17,6 +25,14 @@
     {% else %}
         <h1 align="center" style="font-family: Georgia;"><strong> Добавление публикации </strong></h1>
     {% endif %}
+    <hr>
+    <p style="font-size: 1.3em; font-family: Georgia;">
+    {% if is_type == 'NWS' %}
+        Тип публикации: Новость
+    {% else %}
+        Тип публикации: Статья
+    {% endif %}
+    </p>
     <hr>
     <p style="font-size: 1.3em; font-family: Georgia;">
         Заполните необходимые поля:

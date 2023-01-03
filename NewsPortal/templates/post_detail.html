@@ -3,7 +3,11 @@
 {% load custom_filters %}
 
 {% block title %}
-    News#
+    {% if post.type == 'NWS' %}
+        News#
+    {% else %}
+        Articles#
+    {% endif %}
 {% endblock title %}
 
 {% block content %}
@@ -13,6 +17,9 @@
     </strong></p>
     <p style="font-size: 0.8em; font-family: Georgia;">
         Дата публикации: {{ post.time_in | date:'d.m.Y H:i' }}
+    </p>
+    <p style="font-size: 0.8em; font-family: Georgia;">
+        Тип публикации: {{ post.get_type_display }}
     </p>
     <p style="font-size: 0.8em; font-family: Georgia;">
         Автор: {{ post.author.user.username }}
@@ -31,8 +38,13 @@
     </p>
     {% if request.user == post.author.user %}
         <p  align="right">
-            <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
-            <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+            {% if post.type == 'NWS' %}
+                <a href="{% url 'post_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
+                <a href="{% url 'post_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+            {% else %}
+                <a href="{% url 'art_update' post.id %}" style="color: #6c757d; font-size: 0.8em;">Редактировать</a>&emsp;
+                <a href="{% url 'art_delete' post.id %}" style="color: #6c757d; font-size: 0.8em;">Удалить</a>
+            {% endif %}
         </p>
     {% endif %}
     <br/>

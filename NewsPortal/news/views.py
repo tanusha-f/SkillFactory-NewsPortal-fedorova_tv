@@ -59,6 +59,7 @@ class PostsSearchView(ListView):
     template_name = 'posts_search.html'
     context_object_name = 'postss'
     ordering = ['-time_in']
+    paginate_by = 2
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -79,15 +80,24 @@ class PostAddView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     context_object_name = 'add'
     form_class = PostForm
 
+    def is_type(self):
+        if 'news/' in self.request.path:
+            type_post = 'NWS'
+        else:
+            type_post = 'ART'
+        return type_post
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_author'] = self.request.user.groups.filter(name='authors').exists()
+        context['is_type'] = self.is_type()
         return context
 
     def get_initial(self):
         initial = super().get_initial()
         author = Author.objects.get(user=self.request.user)
         initial['author'] = author
+        initial['type'] = self.is_type()
         return initial
 
     def post(self, request, *args, **kwargs):
@@ -109,15 +119,10 @@ class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         kwargs.update({'action': 'update'})
         return kwargs
 
-    def get_initial(self):
-        initial = super().get_initial()
-        author = Author.objects.get(user=self.request.user)
-        initial['author'] = author
-        return initial
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_author'] = self.request.user.groups.filter(name='authors').exists()
+        context['is_type'] = self.get_object().type
         return context
 
     def get_object(self, **kwargs):
@@ -129,7 +134,7 @@ class PostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = ('news.delete_post',)
     template_name = 'post_delete.html'
     queryset = Post.objects.all()
-    success_url = '/news/'
+    success_url = '/profile/posts'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
